@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_usuarios', function (Blueprint $table) {
+        //
+        Schema::create('tbl_checks', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->tinyInteger('admin', false, true)->default(0);
-            $table->rememberToken();
+            $table->string('descripcion');
+            $table->string('latitud');
+            $table->unsignedBigInteger('categoria_id'); // Crear una columna para la relación
+            $table->foreign('categoria_id')->references('id')->on('tbl_categorias');
             $table->timestamps();
         });
     }
