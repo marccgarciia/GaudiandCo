@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('descripcion');
             $table->string('latitud');
+            $table->string('longitud');
             $table->unsignedBigInteger('categoria_id'); // Crear una columna para la relación
             $table->foreign('categoria_id')->references('id')->on('tbl_categorias');
             $table->timestamps();
