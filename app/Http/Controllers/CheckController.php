@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Checks;
+use App\Models\Categorias;
+
+
 
 class CheckController extends Controller
 {
@@ -15,12 +18,23 @@ class CheckController extends Controller
         return view('checks');
     }
             
+
     // CONTROLADOR PARA MOSTRAR DATOS
     public function index()
     {
-        $checks = Checks::all();
+        $checks = Checks::join('tbl_categorias', 'tbl_checks.categoria_id', '=', 'tbl_categorias.id')
+            ->select('tbl_checks.*', 'tbl_categorias.nombre as categoria')
+            ->get();
         return response()->json($checks);
     }
+
+
+    // CONTROLADOR PARA MOSTRAR DATOS
+    // public function index()
+    // {
+    //     $checks = Checks::all();
+    //     return response()->json($checks);
+    // }
 
     // CONTROLADOR PARA INSERTAR DATOS CON VALIDACION DE CAMPOS VACIOS/FORMATO E-MAIL/E-MAIL EXISTENTE
     public function store(Request $request)

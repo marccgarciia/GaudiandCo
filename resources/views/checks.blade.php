@@ -24,7 +24,7 @@
                     <th>Descripcion</th>
                     <th>Latitud</th>
                     <th>Longitud</th>
-                    <th>Categoria ID</th>
+                    <th>Categoria</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -41,7 +41,9 @@
             <input type="text" name="descripcion" placeholder="Descripción">
             <input type="text" name="latitud" placeholder="Latitud">
             <input type="text" name="longitud" placeholder="Longitud">
-            <input type="text" name="categoria_id" placeholder="Categoria">
+            <select name="categoria_id" id="categoria_id">
+                <option value="">Selecciona una categoría</option>
+            </select>
             <button type="submit">Insertar</button>
         </form>
     </div>
@@ -58,6 +60,9 @@
             <input type="text" name="latitud" id="edit-latitud" placeholder="Latitud">
             <input type="text" name="longitud" id="edit-longitud" placeholder="Longitud">
             <input type="text" name="categoria_id" id="edit-categoria_id" placeholder="Categoria">
+            <select name="categoria_id" id="categoria_id">
+                <option value="">Selecciona una categoría</option>
+            </select>
             <button type="submit">Actualizar</button>
         </form>
     </div>
@@ -87,7 +92,7 @@
                             var descripcion = check.descripcion.toLowerCase();
                             var latitud = check.latitud.toLowerCase();
                             var longitud = check.longitud.toLowerCase();
-                            var categoria_id = check.categoria_id.toString().toLowerCase();
+                            var categoria_id = check.categoria.toString().toLowerCase();
 
                             // Si se ha escrito algo en el buscador y no se encuentra en ningún campo, omitir este registro
                             if (searchString && nombre.indexOf(searchString) == -1 &&
@@ -103,7 +108,7 @@
                             tableRows += '<td>' + check.descripcion + '</td>';
                             tableRows += '<td>' + check.latitud + '</td>';
                             tableRows += '<td>' + check.longitud + '</td>';
-                            tableRows += '<td>' + check.categoria_id + '</td>';
+                            tableRows += '<td>' + check.categoria + '</td>';
                             tableRows += '<td>';
                             tableRows += '<button class="edit-check" data-id="' + check.id +
                                 '" data-nombre="' + check.nombre +
@@ -240,7 +245,24 @@
 
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // Cargar categorías al cargar la página con AJAX/JQUERY
+    loadCategorias();
 
+    // Función para cargar categorías con AJAX/JQUERY
+    function loadCategorias() {
+        $.ajax({
+            url: 'categorias',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                var options = '';
+                $.each(data, function(i, categoria) {
+                    options += '<option value="' + categoria.id + '">' + categoria.nombre + '</option>';
+                });
+                $('#categoria_id').append(options);
+            }
+        });
+    }
         });
     </script>
 </body>
