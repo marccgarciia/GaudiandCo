@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [LoginController::class, 'login']);
-Route::get('/registro', [LoginController::class, 'registro']);
-Route::get('/principal', [LoginController::class, 'principal']);
+// Route::get('/registro', [LoginController::class, 'registro']);
+// Route::get('/principal', [LoginController::class, 'principal']);
+Route::get('registro', [LoginController::class, 'registro']);
+Route::post('loginpost', [LoginController::class, 'loginpost']);
+Route::get('logout', [LoginController::class, 'logout']);
+Route::get('principal', [LoginController::class, 'principal']);
+Route::post('registraruser', [LoginController::class, 'registraruser']);
