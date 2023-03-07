@@ -17,3 +17,6 @@ use App\Http\Controllers\UsuariosController;
 Route::get('/', [UsuariosController::class, 'ver']);
 
 Route::get('/usuarios', [UsuariosController::class, 'mostrar']);
+Route::get('/editar', [UsuariosController::class, 'editar']);
+Route::post('/crear', [UsuariosController::class, 'crear']);
+Route::post('/modificar', [UsuariosController::class, 'modificar']);

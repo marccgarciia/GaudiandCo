@@ -10,6 +10,7 @@
     <meta name="csrf-token" content="{{csrf_token()}}" id="token">
 </head>
 <body>
+<button onclick="crear()">Crear</button>
     <table>
         <thead>
             <tr>
@@ -24,8 +25,11 @@
 
         </tbody>
     </table>
-    <script src="../resources/js/usuarios.js"></script>
+    <div id="crear"></div>
+    <div id="modificar"></div>
 
-    </script>
+
+    <script src="../resources/js/usuarios.js"></script>
 </body>
 </html>
+
