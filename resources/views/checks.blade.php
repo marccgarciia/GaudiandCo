@@ -11,7 +11,7 @@
 
 <body>
     <h1>CRUD CHECKS</h1>
-    <a href="{{ route('webcategorias') }}" >Ir a categorías</a>
+    <a href="{{ route('webcategorias') }}">Ir a categorías</a>
 
     <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
 
@@ -60,9 +60,6 @@
             <input type="text" name="latitud" id="edit-latitud" placeholder="Latitud">
             <input type="text" name="longitud" id="edit-longitud" placeholder="Longitud">
             <input type="text" name="categoria_id" id="edit-categoria_id" placeholder="Categoria">
-            <select name="categoria_id" id="categoria_id">
-                <option value="">Selecciona una categoría</option>
-            </select>
             <button type="submit">Actualizar</button>
         </form>
     </div>
@@ -79,6 +76,7 @@
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // FUNCIÓN PARA CARGAR USUARIOS CON AJAX/JQUERY Y BUSCAR SI ES NECESARIO
             function loadChecks() {
+                // Obtener las categorías y agregar opciones al desplegable
                 $.ajax({
                     url: 'checks',
                     type: 'GET',
@@ -86,7 +84,7 @@
                     success: function(data) {
                         var tableRows = '';
                         var searchString = $('#buscador').val()
-                    .toLowerCase(); // Obtener el texto del buscador y pasarlo a minúsculas
+                            .toLowerCase(); // Obtener el texto del buscador y pasarlo a minúsculas
                         $.each(data, function(i, check) {
                             var nombre = check.nombre.toLowerCase();
                             var descripcion = check.descripcion.toLowerCase();
@@ -245,24 +243,27 @@
 
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // Cargar categorías al cargar la página con AJAX/JQUERY
-    loadCategorias();
+            // Cargar categorías al cargar la página con AJAX/JQUERY
+            loadCategorias();
 
-    // Función para cargar categorías con AJAX/JQUERY
-    function loadCategorias() {
-        $.ajax({
-            url: 'categorias',
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                var options = '';
-                $.each(data, function(i, categoria) {
-                    options += '<option value="' + categoria.id + '">' + categoria.nombre + '</option>';
+            // Función para cargar categorías con AJAX/JQUERY
+            function loadCategorias() {
+                $.ajax({
+                    url: 'categorias',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var options = '';
+                        $.each(data, function(i, categoria) {
+                            options += '<option value="' + categoria.id + '">' + categoria
+                                .nombre + '</option>';
+                        });
+                        $('#categoria_id').append(options);
+                    }
                 });
-                $('#categoria_id').append(options);
             }
-        });
-    }
+
+
         });
     </script>
 </body>
