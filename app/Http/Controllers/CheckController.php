@@ -8,6 +8,13 @@ use App\Models\Checks;
 
 class CheckController extends Controller
 {
+
+    // CONTROLADOR PARA LLEVAR A LA WEB
+    public function webchecks()
+    {
+        return view('checks');
+    }
+            
     // CONTROLADOR PARA MOSTRAR DATOS
     public function index()
     {
@@ -78,5 +85,4 @@ class CheckController extends Controller
         $check->delete();
         return response()->json(['message' => 'Check deleted']);
     }
-    
 }
