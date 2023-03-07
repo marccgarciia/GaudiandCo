@@ -33,30 +33,48 @@ class UsuariosController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'admin' => $request->admin,
+
         ])->post();
            // Redirigimos al listado de usuarios
            return response()->json($crear);
        }
-    public function modificar(Request $request)
+    public function update(Request $request, $id)
    {
+   try {
+       $usuario = DB::table('tbl_usuarios')->where(['id' => $id])->get();
+        if (!$usuario) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
        // Validamos los campos recibidos del formulario
        $request->validate([
-           'id' => 'required',
            'nombre' => 'required',
            'email' => 'required|email',
            'password' => 'required',
            'admin' => 'required',
        ]);
-       $mod = DB::table('tbl_usuarios')
-      ->where('id', $request->id)
-      ->update([
-         'nombre' => $request->nombre,
-         'email' => $request->email,
-         'password' => $request->password,
-         'admin' => $request->admin,
-      ])->post();
 
-       return response()->json(['message' => 'Usuario actualizado correctamente.']);
+       $mod=DB::table('tbl_usuarios')
+       ->where('id', $id)
+       ->update([
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'password' => $request->password,
+            'admin' => $request->admin,
+       ]);
+
+       return response()->json($mod);
+   } catch (\Exception $e) {
+       return response()->json(['error' => 'Ha ocurrido un error al actualizar el usuario: ' . $e->getMessage()]);
    }
-    
+
+}
+    public function delete($id){
+    $result = DB::table('tbl_usuarios')->where('id', $id)->delete();
+
+    if ($result) {
+        return response()->json(['message' => 'Usuario eliminado correctamente.']);
+    } else {
+        return response()->json(['message' => 'No se pudo eliminar el usuario.']);
+    }
+    }
 }

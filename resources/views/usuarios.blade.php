@@ -25,8 +25,10 @@
 
         </tbody>
     </table>
-    <div id="crear"></div>
-    <div id="modificar"></div>
+    <div id="crear">        @csrf
+        </div>
+    <div id="modificar">        @csrf
+        @method('PUT')</div>
 
 
     <script src="../resources/js/usuarios.js"></script>
