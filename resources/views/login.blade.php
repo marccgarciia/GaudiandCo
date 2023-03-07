@@ -18,8 +18,7 @@
                         <button type="submit" id="button" class="nav-button"><b>Iniciar Sesión</b></button>
                     </div>
                 </form>
-                <a href="{{ url('registro') }}"><button class="boton-restaurantes"><b>Regístrate ahora</b></button></a>
-     <!-- NAVBAR -->
+                <a href="{{ route('registro') }}" >Ir a categorías</a>     <!-- NAVBAR -->
     
 </body>
 </html>
