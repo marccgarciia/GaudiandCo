@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('pswd');
             $table->tinyInteger('admin', false, true)->default(0);
             $table->rememberToken();
             $table->timestamps();

@@ -11,7 +11,9 @@
 
 <body>
     <h1>CRUD CATEGORIAS</h1>
-    <a href="{{ route('webchecks') }}" >Ir a checks</a>
+    <a href="{{ route('webcategorias') }}">CATEGORÍAS</a>
+    <a href="{{ route('webchecks') }}">CHECKS</a>
+    <a href="{{ route('webusuarios') }}">USUARIOS</a>
 
     <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
 

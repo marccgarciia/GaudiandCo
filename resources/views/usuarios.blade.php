@@ -10,23 +10,21 @@
 </head>
 
 <body>
-    <h1>CRUD CHECKS</h1>
+    <h1>CRUD USUARIOS</h1>
     <a href="{{ route('webcategorias') }}">CATEGORÍAS</a>
     <a href="{{ route('webchecks') }}">CHECKS</a>
     <a href="{{ route('webusuarios') }}">USUARIOS</a>
 
     <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
 
-    <div id="checks">
-        <h2>Lista de checks</h2>
+    <div id="usuarios">
+        <h2>Lista de usuarios</h2>
         <table>
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Latitud</th>
-                    <th>Longitud</th>
-                    <th>Categoria</th>
+                    <th>Email</th>
+                    <th>Admin</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -36,34 +34,27 @@
     </div>
 
     <div>
-        <form action="checks" method="POST" id="form-insert">
+        <form action="usuarios" method="POST" id="form-insert">
             <h2>Formulario de Insertar</h2>
             @csrf
             <input type="text" name="nombre" placeholder="Nombre">
-            <input type="text" name="descripcion" placeholder="Descripción">
-            <input type="text" name="latitud" placeholder="Latitud">
-            <input type="text" name="longitud" placeholder="Longitud">
-            <select name="categoria_id" id="categoria_id">
-                <option value="">Selecciona una categoría</option>
-            </select>
+            <input type="text" name="email" placeholder="Email">
+            <input type="text" name="pswd" placeholder="Password">
+
             <button type="submit">Insertar</button>
         </form>
     </div>
 
     <div>
         <!-- Agregar un nuevo formulario para la edición de usuarios -->
-        <form action="checks" method="POST" id="form-edit" style="display:none;">
+        <form action="usuarios" method="POST" id="form-edit" style="display:none;">
             <h2>Formulario de Editar</h2>
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="edit-id">
             <input type="text" name="nombre" id="edit-nombre" placeholder="Nombre">
-            <input type="text" name="descripcion" id="edit-descripcion" placeholder="Descripción">
-            <input type="text" name="latitud" id="edit-latitud" placeholder="Latitud">
-            <input type="text" name="longitud" id="edit-longitud" placeholder="Longitud">
-            <select name="categoria_id" id="categoria_id-edit">
-                <option value="">Selecciona una categoría</option>
-            </select>
+            <input type="text" name="email" id="edit-email" placeholder="Email">
+            <input type="text" name="pswd" id="edit-pswd" placeholder="Password">
             <button type="submit">Actualizar</button>
         </form>
     </div>
@@ -74,64 +65,58 @@
         $(document).ready(function() {
 
             // Cargar usuarios al cargar la página con AJAX/JQUERY
-            loadChecks();
+            loadUsuarios();
 
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // FUNCIÓN PARA CARGAR USUARIOS CON AJAX/JQUERY Y BUSCAR SI ES NECESARIO
-            function loadChecks() {
+            function loadUsuarios() {
                 // Obtener las categorías y agregar opciones al desplegable
                 $.ajax({
-                    url: 'checks',
+                    url: 'usuarios',
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
                         var tableRows = '';
                         var searchString = $('#buscador').val()
                             .toLowerCase(); // Obtener el texto del buscador y pasarlo a minúsculas
-                        $.each(data, function(i, check) {
-                            var nombre = check.nombre.toLowerCase();
-                            var descripcion = check.descripcion.toLowerCase();
-                            var latitud = check.latitud.toLowerCase();
-                            var longitud = check.longitud.toLowerCase();
-                            var categoria_id = check.categoria.toString().toLowerCase();
+                        $.each(data, function(i, usuario) {
+                            var nombre = usuario.nombre.toLowerCase();
+                            var email = usuario.email.toLowerCase();
+                            var pswd = usuario.pswd.toLowerCase();
+
 
                             // Si se ha escrito algo en el buscador y no se encuentra en ningún campo, omitir este registro
                             if (searchString && nombre.indexOf(searchString) == -1 &&
-                                descripcion.indexOf(searchString) == -1 &&
-                                latitud.indexOf(searchString) == -1 && longitud.indexOf(
-                                    searchString) == -1 &&
-                                categoria_id.indexOf(searchString) == -1) {
+                                email.indexOf(searchString) == -1 &&
+                                pswd.indexOf(searchString) == -1) {
                                 return true; // Continue
                             }
 
                             tableRows += '<tr>';
-                            tableRows += '<td>' + check.nombre + '</td>';
-                            tableRows += '<td>' + check.descripcion + '</td>';
-                            tableRows += '<td>' + check.latitud + '</td>';
-                            tableRows += '<td>' + check.longitud + '</td>';
-                            tableRows += '<td>' + check.categoria + '</td>';
+                            tableRows += '<td>' + usuario.nombre + '</td>';
+                            tableRows += '<td>' + usuario.email + '</td>';
+                            tableRows += '<td>' + usuario.admin + '</td>';
+                            // tableRows += '<td>' + usuario.pswd + '</td>'; // ESTA COMENTADO PARA NO VER EL PASSWORD
                             tableRows += '<td>';
-                            tableRows += '<button class="edit-check" data-id="' + check.id +
-                                '" data-nombre="' + check.nombre +
-                                '" data-descripcion="' + check.descripcion +
-                                '" data-latitud="' + check.latitud +
-                                '" data-longitud="' + check.longitud +
-                                '" data-categoria_id="' + check.categoria_id +
+                            tableRows += '<button class="edit-usuario" data-id="' + usuario.id +
+                                '" data-nombre="' + usuario.nombre +
+                                '" data-email="' + usuario.email +
+                                '" data-pswd="' + usuario.pswd +
                                 '">Editar</button>';
 
-                            tableRows += '<button class="delete-check" data-id="' + check.id +
+                            tableRows += '<button class="delete-usuario" data-id="' + usuario.id +
                                 '">Eliminar</button>';
                             tableRows += '</td>';
                             tableRows += '</tr>';
                         });
-                        $('#checks tbody').html(tableRows);
+                        $('#usuarios tbody').html(tableRows);
                     }
                 });
             }
 
             $('#buscador').on('keyup', function() {
-                loadChecks();
+                loadUsuarios();
             });
 
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -144,7 +129,7 @@
                     .serialize(); // cambiar a $(this) para serializar solo el formulario actual
 
                 $.ajax({
-                    url: 'checks',
+                    url: 'usuarios',
                     type: 'POST',
                     dataType: 'json',
                     data: formData,
@@ -153,7 +138,7 @@
                         $('form')[0].reset();
 
                         // Recargar la lista de usuarios
-                        loadChecks();
+                        loadUsuarios();
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr.responseText);
@@ -164,19 +149,19 @@
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // Función para eliminar los datos del CRUD al servidor con AJAX/JQUERY
-            $('body').on('click', '.delete-check', function() {
+            $('body').on('click', '.delete-usuario', function() {
                 var checkId = $(this).data('id');
 
                 if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
                     $.ajax({
-                        url: 'checks/' + checkId,
+                        url: 'usuarios/' + checkId,
                         type: 'DELETE',
                         dataType: 'json',
                         data: {
                             '_token': $('input[name=_token]').val()
                         },
                         success: function(response) {
-                            loadChecks();
+                            loadUsuarios();
                         },
                         error: function(xhr, status, error) {
                             console.log(xhr.responseText);
@@ -195,7 +180,7 @@
                     var formData = $(this).serialize();
                     var id = $('#edit-id').val();
                     $.ajax({
-                        url: 'checks/' + id,
+                        url: 'usuarios/' + id,
                         type: 'PUT',
                         dataType: 'json',
                         data: formData,
@@ -204,12 +189,10 @@
                             $('#form-edit').hide();
                             // clear the form fields
                             $('#edit-nombre').val('');
-                            $('#edit-descripcion').val('');
-                            $('#edit-latitud').val('');
-                            $('#edit-longitud').val('');
-                            $('#edit-categoria_id').val('');
+                            $('#edit-email').val('');
+                            $('#edit-pswd').val('');
                             // reload the user list
-                            loadChecks();
+                            loadUsuarios();
                         },
                         error: function(xhr, status, error) {
                             console.log(xhr.responseText);
@@ -217,57 +200,33 @@
                     });
                 });
 
-                function editCheck(id, nombre, descripcion, latitud, longitud, categoria_id) {
+                function editUsuario(id, nombre, email, pswd) {
                     // set the form values
                     $('#edit-id').val(id);
                     $('#edit-nombre').val(nombre);
-                    $('#edit-descripcion').val(descripcion);
-                    $('#edit-latitud').val(latitud);
-                    $('#edit-longitud').val(longitud);
-                    $('#edit-categoria_id').val(categoria_id);
+                    $('#edit-email').val(email);
+                    // $('#edit-pswd').val(pswd); // ESTA COMENTADO PARA NO VER EL PASSWORD
+
 
                     // mostrar el form de editar
                     $('#form-edit').show();
                 }
 
                 // FUNCION QUE AL CLICAR RECOGE LOS DATOS ENVIADOS Y ACTIVA LA FUNCION DE ARRIBA PARA ENVIAR LOS DATOS AL SERVIDOR
-                $('body').on('click', '.edit-check', function() {
+                $('body').on('click', '.edit-usuario', function() {
                     var id = $(this).data('id');
                     var nombre = $(this).data('nombre');
-                    var descripcion = $(this).data('descripcion');
-                    var latitud = $(this).data('latitud');
-                    var longitud = $(this).data('longitud');
-                    var categoria_id = $(this).data('categoria_id');
+                    var email = $(this).data('email');
+                    var pswd = $(this).data('pswd');
 
                     // llama a la funcion editUser 
-                    editCheck(id, nombre, descripcion, latitud, longitud, categoria_id);
+                    editUsuario(id, nombre, email, pswd);
                 });
             });
 
 
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-            // Cargar categorías al cargar la página con AJAX/JQUERY
-            loadCategorias();
-
-            // Función para cargar categorías con AJAX/JQUERY
-            function loadCategorias() {
-                $.ajax({
-                    url: 'categorias',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        var options = '';
-                        $.each(data, function(i, categoria) {
-                            options += '<option value="' + categoria.id + '">' + categoria
-                                .nombre + '</option>';
-                        });
-                        $('#categoria_id').append(options);
-                        $('#categoria_id-edit').append(options);
-
-                    }
-                });
-            }
 
 
         });

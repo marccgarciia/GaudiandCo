@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\UsuariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +61,24 @@ Route::put('/categorias/{id}', [CategoriasController::class, 'updatecategorias']
 
 //ELIMINAR
 Route::delete('/categorias/{id}', [CategoriasController::class, 'destroycategorias']);
+
+
+//-----------------------------------------------------
+//USUARIOS ------------------------------------------
+//-----------------------------------------------------
+
+//VER WEB
+Route::get('/webusuarios', [UsuariosController::class, 'webusuarios'])->name('webusuarios');
+
+//MOSTRAR Y BUSCAR
+Route::get('/usuarios', [UsuariosController::class, 'indexusuarios']);
+
+//INSERTAR
+Route::post('/usuarios', [UsuariosController::class, 'storeusuarios']);
+
+//ACTUALIZAR
+Route::put('/usuarios/{id}', [UsuariosController::class, 'updateusuarios']);
+
+//ELIMINAR
+Route::delete('/usuarios/{id}', [UsuariosController::class, 'destroyusuarios']);
 

@@ -73,8 +73,8 @@ class CheckController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
             'descripcion' => 'required',
-            'latitud' => 'required',
-            'longitud' => 'required',
+            'latitud' => 'required|numeric',
+            'longitud' => 'required|numeric',
             'categoria_id' => 'required',
         ]);
 
