@@ -6,26 +6,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD USUARIOS</title>
+    <link rel="stylesheet" href="{!! asset('../resources/css/app.css') !!}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/2b5286e1aa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
-<body>
-    <h1>CRUD USUARIOS</h1>
-    <a href="{{ route('webcategorias') }}">CATEGORÍAS</a>
-    <a href="{{ route('webchecks') }}">CHECKS</a>
-    <a href="{{ route('webusuarios') }}">USUARIOS</a>
 
-    <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
+<body class="padding-crud">
 
-    <div id="usuarios">
-        <h2>Lista de usuarios</h2>
-        <table>
-            <thead>
+
+
+    {{-- MODAL PARA CREAR --}}
+    <div id="mdlcrear" class="modalcrear">
+        <div class="modalcrear__content">
+            <h1 class="texto-arriba-modal">Crear</h1>
+            <div class="inputs_modal">
+                <form action="usuarios" method="POST" id="form-insert">
+                    @csrf
+                    <input type="text" name="nombre" placeholder="Nombre">
+                    <input type="text" name="email" placeholder="Email">
+                    <input type="text" name="pswd" placeholder="Password">
+                    <button type="submit">Insertar</button>
+                </form>
+            </div>
+            <a href="#" class="modalcrear__close">&times;</a>
+        </div>
+    </div>
+
+
+    {{-- MODAL PARA EDITAR --}}
+    <div id="mdl-editar" class="modaleditar">
+        <div class="modaleditar__content">
+            <h1 class="texto-arriba-modal">Editar</h1>
+            <div class="inputs_modal">
+        <!-- Agregar un nuevo formulario para la edición de usuarios -->
+                <form action="usuarios" method="POST" id="form-edit" style="display:none;">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id" id="edit-id">
+                    <input type="text" name="nombre" id="edit-nombre" placeholder="Nombre">
+                    <input type="text" name="email" id="edit-email" placeholder="Email">
+                    <input type="text" name="pswd" id="edit-pswd" placeholder="Password">
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+            <a href="#" class="modaleditar__close">&times;</a>
+        </div>
+    </div>
+
+    {{-- NAV CON IMAGEN Y LOG OUT --}}
+    <div class="nav-crud">
+        <img src="img/logo.png" alt="">
+        <button><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+
+    <div class="buttons-nav">
+        <a href="{{ route('webcategorias') }}"><button>Categorias</button></a>
+        <a href="{{ route('webusuarios') }}"><button>Usuarios</button></a>
+        <a href="{{ route('webchecks') }}"><button>Lugares</button></a>
+    </div>
+
+  {{-- TITULO PAGINA --}}
+  <h1 class="titulo-crud">Usuarios</h1>
+  {{-- BUSCADOR --}}
+  <div class="buscador-crud">
+      <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
+  </div>
+  {{-- BOTON PARA CREAR --}}
+  <a href="#mdlcrear"><button class="btn-modalcrear" ><i class="fa-solid fa-plus"></i></button></a>
+
+
+
+    <div class="crud" id="usuarios">
+        <table class="table">
+            <thead class="thead-dark">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Admin</th>
-                    <th>Acciones</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,31 +93,9 @@
         </table>
     </div>
 
-    <div>
-        <form action="usuarios" method="POST" id="form-insert">
-            <h2>Formulario de Insertar</h2>
-            @csrf
-            <input type="text" name="nombre" placeholder="Nombre">
-            <input type="text" name="email" placeholder="Email">
-            <input type="text" name="pswd" placeholder="Password">
 
-            <button type="submit">Insertar</button>
-        </form>
-    </div>
 
-    <div>
-        <!-- Agregar un nuevo formulario para la edición de usuarios -->
-        <form action="usuarios" method="POST" id="form-edit" style="display:none;">
-            <h2>Formulario de Editar</h2>
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="id" id="edit-id">
-            <input type="text" name="nombre" id="edit-nombre" placeholder="Nombre">
-            <input type="text" name="email" id="edit-email" placeholder="Email">
-            <input type="text" name="pswd" id="edit-pswd" placeholder="Password">
-            <button type="submit">Actualizar</button>
-        </form>
-    </div>
+
 
 
 
@@ -99,14 +137,14 @@
                             tableRows += '<td>' + usuario.admin + '</td>';
                             // tableRows += '<td>' + usuario.pswd + '</td>'; // ESTA COMENTADO PARA NO VER EL PASSWORD
                             tableRows += '<td>';
-                            tableRows += '<button class="edit-usuario" data-id="' + usuario.id +
+                            tableRows += '<a href="#mdl-editar"><button class="edit-usuario btn-editar" data-id="' + usuario.id +
                                 '" data-nombre="' + usuario.nombre +
                                 '" data-email="' + usuario.email +
                                 '" data-pswd="' + usuario.pswd +
-                                '">Editar</button>';
+                                '"><i class="fa-solid fa-pen-to-square"></i></button></a>';
 
-                            tableRows += '<button class="delete-usuario" data-id="' + usuario.id +
-                                '">Eliminar</button>';
+                            tableRows += '<button class="delete-usuario btn-eliminar" data-id="' + usuario.id +
+                                '"><i class="fa-solid fa-trash"></i></button>';
                             tableRows += '</td>';
                             tableRows += '</tr>';
                         });

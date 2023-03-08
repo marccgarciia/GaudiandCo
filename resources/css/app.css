@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+:root {
+    --color-1: #6879FF;
+    --color-2: #dce1f7;
+}
+
+body {
+    margin: 0;
+}
+
+
+/* ######################### ESTILOS PARA LOGIN Y SIGN IN ##################################### */
+
+.container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0px 30px 0px 30px;
+}
+
+.container-login h1 {
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.container-login p {
+    text-align: justify;
+    color: rgb(70, 70, 70);
+    font-size: 13px;
+    margin-top: 18px;
+    margin-bottom: 30px;
+}
+
+.container-login img {
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.container-login input[type="text"],
+.container-login input[type="password"] {
+    border: 1px solid var(--color-2);
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    background-color: var(--color-2);
+    font-size: 17px;
+}
+
+.container-login input:focus[type="text"],
+.container-login input:focus[type="password"] {
+    outline: none;
+}
+
+.container-login button[type="submit"] {
+    border: 1px solid var(--color-1);
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0px;
+    background-color: var(--color-1);
+    font-size: 17px;
+    cursor: pointer;
+    color: white;
+}
+
+.texto-registrate-inicia {
+    margin-left: 30px;
+    font-size: 13px;
+    display: flex;
+}
+
+.texto-registrate-inicia p {
+    margin-top: 15px;
+}
+
+.texto-registrate-inicia a {
+    margin-top: 15px;
+    margin-left: 5px;
+    text-decoration: none;
+    color: var(--color-1);
+}
+
+
+/* ######################### ESTILOS PARA CRUD ##################################### */
+
+.padding-crud {
+    margin: 10px;
+}
+
+
+/* ESTILOS PARA NAV PRINCIPAL */
+
+.nav-crud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-crud img {
+    width: 230px;
+}
+
+.nav-crud button {
+    background-color: var(--color-1);
+    border: 3px solid var(--color-1);
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+.nav-crud button:hover {
+    background-color: white;
+    color: var(--color-1);
+    border: 3px solid var(--color-1);
+    transition: 0.5s;
+}
+
+
+/* ESTILOS PARA NAV DE BOTONES */
+
+.buttons-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.buttons-nav button {
+    background-color: var(--color-2);
+    border: 3px solid var(--color-2);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+/* TITULO CRUD */
+
+.titulo-crud {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+
+/* BUSCADOR CRUD */
+
+.buscador-crud {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.buscador-crud input {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid grey;
+    width: 60%;
+}
+
+
+/* ESTILOS CRUD */
+
+.crud {
+    border-radius: 6px;
+    overflow: scroll;
+    margin-top: 0;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.btn-editar {
+    width: 100%;
+    padding: 5px;
+    border-radius: 6px;
+    border: 3px solid var(--color-1);
+    margin-bottom: 10px;
+    color: white;
+    background-color: var(--color-1);
+    cursor: pointer;
+}
+
+.btn-editar:hover {
+    background-color: white;
+    border: 3px solid var(--color-1);
+    transition: 0.5s;
+    color: var(--color-1);
+}
+
+.btn-eliminar {
+    width: 100%;
+    padding: 5px;
+    border-radius: 6px;
+    border: 3px solid var(--color-1);
+    margin-bottom: 10px;
+    color: white;
+    background-color: var(--color-1);
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background-color: white;
+    border: 3px solid var(--color-1);
+    transition: 0.5s;
+    color: var(--color-1);
+}
+
+
+/* ######################### MODAL PARA CREAR ##################################### */
+
+#mdlcrear {
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 1);
+    transition: all .4s;
+}
+
+#mdlcrear:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modalcrear__content {
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: white;
+    padding: 1em 2em;
+}
+
+.btn-modalcrear {
+    margin-left: 10px;
+    margin-top: 30px;
+    background-color: var(--color-2);
+    border: 3px solid var(--color-2);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.modalcrear__close {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+}
+
+
+/* CONTENIDO DENTRO DE MODAL CREAR Y EDITAR */
+
+.texto-arriba-modal {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.inputs_modal {
+    margin-top: 30px;
+}
+
+.inputs_modal input {
+    border: 1px solid var(--color-2);
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    background-color: var(--color-2);
+    font-size: 17px;
+}
+
+.inputs_modal input:focus {
+    outline: none;
+}
+
+.inputs_modal select {
+    border: 1px solid var(--color-2);
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    background-color: var(--color-2);
+    font-size: 17px;
+}
+
+.inputs_modal button[type="submit"] {
+    border: 1px solid var(--color-1);
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0px;
+    background-color: var(--color-1);
+    font-size: 17px;
+    cursor: pointer;
+    color: white;
+}
+
+
+/* ######################### MODAL EDITAR ##################################### */
+
+#mdl-editar {
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    transition: all .4s;
+}
+
+#mdl-editar:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modaleditar__content {
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: white;
+    padding: 1em 2em;
+}
+
+.btn-modaleditar {
+    background-color: #fff;
+}
+
+.modaleditar__close {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+}
+
+
+/* ######################### RESPONSIVE MODE ##################################### */
+
+@media (max-width: 335px) {
+    .nav-crud {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px;
+        flex-direction: column;
+    }
+}

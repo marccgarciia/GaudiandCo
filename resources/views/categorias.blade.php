@@ -6,24 +6,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD CATEGORIAS</title>
+    <link rel="stylesheet" href="{!! asset('../resources/css/app.css') !!}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/2b5286e1aa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
-<body>
-    <h1>CRUD CATEGORIAS</h1>
-    <a href="{{ route('webcategorias') }}">CATEGORÍAS</a>
-    <a href="{{ route('webchecks') }}">CHECKS</a>
-    <a href="{{ route('webusuarios') }}">USUARIOS</a>
+<body class="padding-crud">
 
-    <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
+    {{-- MODAL PARA CREAR --}}
+    <div id="mdlcrear" class="modalcrear">
+        <div class="modalcrear__content">
+            <h1 class="texto-arriba-modal">Crear</h1>
+            <div class="inputs_modal">
+                <form action="categorias" method="POST" id="form-insert">
+                    @csrf
+                    <input type="text" name="nombre" placeholder="Nombre">
+                    <button type="submit">Insertar</button>
+                </form>
+            </div>
+            <a href="#" class="modalcrear__close">&times;</a>
+        </div>
+    </div>
 
-    <div id="categorias">
-        <h2>Lista de CATEGORIAS</h2>
-        <table>
-            <thead>
+    {{-- MODAL PARA EDITAR --}}
+    <div id="mdl-editar" class="modaleditar">
+        <div class="modaleditar__content">
+            <h1 class="texto-arriba-modal">Editar</h1>
+            <div class="inputs_modal">
+                <!-- Agregar un nuevo formulario para la edición de usuarios -->
+                <form action="categorias" method="POST" id="form-edit" style="display:none;">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id" id="edit-id">
+                    <input type="text" name="nombre" id="edit-nombre" placeholder="Nombre">
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+            <a href="#" class="modaleditar__close">&times;</a>
+        </div>
+    </div>
+
+    {{-- NAV CON IMAGEN Y LOG OUT --}}
+    <div class="nav-crud">
+        <img src="img/logo.png" alt="">
+        <button><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+    {{-- NAV DE BOTONES NAVEGACION --}}
+    <div class="buttons-nav">
+        <a href="{{ route('webcategorias') }}"><button>Categorias</button></a>
+        <a href="{{ route('webusuarios') }}"><button>Usuarios</button></a>
+        <a href="{{ route('webchecks') }}"><button>Lugares</button></a>
+    </div>
+    {{-- TITULO PAGINA --}}
+    <h1 class="titulo-crud">Categorias</h1>
+    {{-- BUSCADOR --}}
+    <div class="buscador-crud">
+        <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
+    </div>
+    {{-- BOTON PARA CREAR --}}
+    <a href="#mdlcrear"><button class="btn-modalcrear" ><i class="fa-solid fa-plus"></i></button></a>
+    {{-- TABLA --}}
+
+
+
+    <div class="crud" id="categorias">
+        <table class="table">
+            <thead class="thead-dark">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,26 +83,8 @@
         </table>
     </div>
 
-    <div>
-        <form action="categorias" method="POST" id="form-insert">
-            <h2>Formulario de Insertar</h2>
-            @csrf
-            <input type="text" name="nombre" placeholder="Nombre">
-            <button type="submit">Insertar</button>
-        </form>
-    </div>
 
-    <div>
-        <!-- Agregar un nuevo formulario para la edición de usuarios -->
-        <form action="categorias" method="POST" id="form-edit" style="display:none;">
-            <h2>Formulario de Editar</h2>
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="id" id="edit-id">
-            <input type="text" name="nombre" id="edit-nombre" placeholder="Nombre">
-            <button type="submit">Actualizar</button>
-        </form>
-    </div>
+
 
 
 
@@ -83,12 +117,12 @@
                             tableRows += '<tr>';
                             tableRows += '<td>' + categoria.nombre + '</td>';
                             tableRows += '<td>';
-                            tableRows += '<button class="edit-categoria" data-id="' + categoria.id +
+                            tableRows += '<a href="#mdl-editar"><button class="edit-categoria btn-editar" data-id="' + categoria.id +
                                 '" data-nombre="' + categoria.nombre +
-                                '">Editar</button>';
+                                '"><i class="fa-solid fa-pen-to-square"></i></button></a>';
 
-                            tableRows += '<button class="delete-categoria" data-id="' + categoria.id +
-                                '">Eliminar</button>';
+                            tableRows += '<button class="delete-categoria btn-eliminar" data-id="' + categoria.id +
+                                '"><i class="fa-solid fa-trash"></i></button>';
                             tableRows += '</td>';
                             tableRows += '</tr>';
                         });

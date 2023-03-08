@@ -62,7 +62,7 @@ class UsuariosController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|alpha',
             'email' => 'required|email',
-            'pswd' => 'required|min:8',
+            'pswd' => '',
         ]);
 
         if ($validator->fails()) {
