@@ -21,7 +21,6 @@ class UsuariosController extends Controller
     }
     public function crear(Request $request)
        {
-           // Validamos los campos recibidos del formulario
            $request->validate([
                'nombre' => 'required',
                'email' => 'required|email',
@@ -35,7 +34,7 @@ class UsuariosController extends Controller
             'admin' => $request->input('admin'),
 
         ]);
-           return response()->json(['success' => true, 200]);
+           return response()->json($crear);
        }
     public function update(Request $request, $id)
    {
@@ -59,7 +58,7 @@ class UsuariosController extends Controller
             'password' => $request->input('password'),
             'admin' => $request->input('admin'),
        ]);
-        return response()->json(['Resultado' => 'OK']);
+        return response()->json($mod);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Ha ocurrido un error al actualizar el usuario: ' . $e->getMessage()]);
     }
@@ -75,4 +74,20 @@ class UsuariosController extends Controller
         return response()->json(['message' => 'No se pudo eliminar el usuario.']);
     }
     }
+
+    public function filtrar(Request $request)
+{
+    $filtro = $request->input('filtrar');
+    if (!$filtro) {
+        $usuarios = DB::table('tbl_usuarios')->get();
+    }else {
+        $usuarios = DB::table('tbl_usuarios')
+        ->where('id', 'LIKE', "%$filtro%")
+        ->orWhere('nombre', 'LIKE', "%$filtro%")
+        ->orWhere('email', 'LIKE', "%$filtro%")
+        ->orWhere('admin', 'LIKE', "%$filtro%")
+        ->get();
+    }
+    return response()->json($usuarios);
+}
 }

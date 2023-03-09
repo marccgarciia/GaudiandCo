@@ -28,10 +28,11 @@
   {{-- TITULO PAGINA --}}
   <h1 class="titulo-crud">Usuarios</h1>
   {{-- BUSCADOR --}}
-  <div class="buscador-crud">
-      <input type="text" name="buscador" id="buscador" placeholder="Buscador...">
-  </div>
 
+
+  <div class="buscador-crud" id="formulario_busqueda">
+       <input type="text" name="filtro" id="buscador" placeholder="Buscador...">
+ </div>
 <button onclick="crear()" class="btn-modalcrear"><i class="fa-solid fa-plus"></i></button>
 <div class="crud">
     <table class="table" id="table">
@@ -39,7 +40,6 @@
             <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
                 <th scope="col">Admin</th>
                 <th scope="col">Acciones</th>
             </tr>
@@ -52,7 +52,6 @@
     <div id="crear">
         </div>
     <div id="modificar"></div>
-
 
     <script src="../resources/js/usuarios.js"></script>
 

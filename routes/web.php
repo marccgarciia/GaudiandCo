@@ -21,3 +21,4 @@ Route::get('/editar', [UsuariosController::class, 'editar']);
 Route::post('/crear', [UsuariosController::class, 'crear']);
 Route::post('/usuarios/{id}', [UsuariosController::class, 'update']);
 Route::delete('/eliminar/{id}', [UsuariosController::class, 'delete']);
+Route::get('/filtrar', [UsuariosController::class, 'filtrar']);
