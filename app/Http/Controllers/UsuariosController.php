@@ -29,23 +29,21 @@ class UsuariosController extends Controller
                'admin' => 'required',
            ]);
          $crear = DB::table('tbl_usuarios')->insert([
-            'nombre' => $request->nombre,
-            'email' => $request->email,
-            'password' => $request->password,
-            'admin' => $request->admin,
+            'nombre' => $request->input('nombre'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
 
-        ])->post();
-           // Redirigimos al listado de usuarios
-           return response()->json($crear);
+        ]);
+           return response()->json(['success' => true, 200]);
        }
     public function update(Request $request, $id)
    {
-   try {
-       $usuario = DB::table('tbl_usuarios')->where(['id' => $id])->get();
+    try {
+       $usuario = DB::table('tbl_usuarios')->where(['id' => $id]);
         if (!$usuario) {
             return response()->json(['message' => 'User not found'], 404);
         }
-       // Validamos los campos recibidos del formulario
        $request->validate([
            'nombre' => 'required',
            'email' => 'required|email',
@@ -56,23 +54,23 @@ class UsuariosController extends Controller
        $mod=DB::table('tbl_usuarios')
        ->where('id', $id)
        ->update([
-            'nombre' => $request->nombre,
-            'email' => $request->email,
-            'password' => $request->password,
-            'admin' => $request->admin,
+            'nombre' => $request->input('nombre'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'admin' => $request->input('admin'),
        ]);
-
-       return response()->json($mod);
-   } catch (\Exception $e) {
-       return response()->json(['error' => 'Ha ocurrido un error al actualizar el usuario: ' . $e->getMessage()]);
-   }
+        return response()->json(['Resultado' => 'OK']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Ha ocurrido un error al actualizar el usuario: ' . $e->getMessage()]);
+    }
 
 }
     public function delete($id){
     $result = DB::table('tbl_usuarios')->where('id', $id)->delete();
 
     if ($result) {
-        return response()->json(['message' => 'Usuario eliminado correctamente.']);
+        error_reporting(0);
+        return response()->json(['message' => 'Usuario eliminado correctamente.', 200]);
     } else {
         return response()->json(['message' => 'No se pudo eliminar el usuario.']);
     }
